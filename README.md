@@ -11,6 +11,7 @@ Branches are released after each lab session.
 | Lab 04 | lab-04-spring-boot-rest-api | Spring Boot, REST, CRUD, Postman |
 | Lab 05 | lab-05-spring-security-jwt | Spring Security, JWT, Filter Chain, AuthenticationManager, BCrypt |
 | Lab 06 | lab-06-oauth2-implementation | OAuth2, Spring Authorization Server, Resource Server, Grant Types, Scope Enforcement |
+| Lab 07 | lab-07-monolith-to-microservices | Monolith decomposition, microservices, service boundaries, port mapping, Spring Cloud overview |
 ## Upcoming Labs
 
 Branches for upcoming labs will be shared after each session concludes.
