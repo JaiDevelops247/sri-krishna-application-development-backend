@@ -9,6 +9,7 @@ Branches are released after each lab session.
 | Lab | Branch | Concepts |
 | --- | ------ | -------- |
 | Lab 04 | lab-04-spring-boot-rest-api | Spring Boot, REST, CRUD, Postman |
+| Lab 05 | lab-05-spring-security-jwt | Spring Security, JWT, Filter Chain, AuthenticationManager, BCrypt |
 
 ## Upcoming Labs
 
