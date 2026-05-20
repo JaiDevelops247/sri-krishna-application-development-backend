@@ -1,68 +1,60 @@
-# Lab 05 : Spring Security and JWT : Secured Student API
+# Lab 07 : Monolith to Microservices
 
 ## What this branch contains
 
-This branch contains the complete solution for Lab 05 of the React and
-Spring Boot course. It secures the Student API from Lab 04 using Spring
-Security and JWT. All student endpoints require a valid Bearer token.
-The login endpoint issues tokens for verified credentials.
+This branch contains the complete solution for Lab 07 of the React and
+Spring Boot course. It introduces two independent microservices decomposed
+from the Student API monolith, along with an architectural reflection
+explaining the reasoning behind the split.
 
-## How to browse step by step
+## Projects
 
-Click on Commits in the GitHub branch view to see the code after each
-individual step. Each commit is labelled with the step number and a
-description of what was built.
+### department-service (port 8081)
+Manages department records. Exposes CRUD endpoints at /api/departments.
+Completely independent of employee-service with its own in-memory store.
 
-## How to run this project
+### employee-service (port 8082)
+Manages employee records. Exposes CRUD endpoints at /api/employees.
+The departmentId field is a plain Long at this stage. Inter-service
+communication is introduced in Lab 09.
 
-- Java 17 or above required
-- Open the project in IntelliJ IDEA
-- Wait for Maven to download dependencies
-- Run StudentApiApplication.java
-- Server starts on http://localhost:8080
+## How to Run
+
+Open each project in IntelliJ IDEA and run independently.
+Both can run simultaneously without conflicts.
+
+Department-Service : http://localhost:8081
+Employee-Service   : http://localhost:8082
 
 ## Testing with Postman
 
-Import the collection file from the project root into Postman.
-Select the Local Development environment before sending requests.
-
-- Lab05_SecuredStudentAPI.postman_collection.json
-
-Login first to obtain a token, then set it as a Bearer Token
-in the Authorization tab of each student endpoint request.
-
-## Authentication
-
-POST /api/auth/login with the following body:
-
-{
-"username": "admin",
-"password": "password"
-}
-
-The response contains a signed JWT token valid for 24 hours.
+Import Lab07_Microservices.postman_collection.json from the repository root.
+Add departmentServiceUrl and employeeServiceUrl variables to the
+Local Development environment before running requests.
 
 ## Endpoints
 
-| Method | URL                    | Auth required | Description          |
-|--------|------------------------|---------------|----------------------|
-| POST   | /api/auth/login        | No            | Login and get token  |
-| GET    | /api/students          | Yes           | Get all students     |
-| GET    | /api/students/{id}     | Yes           | Get student by ID    |
-| POST   | /api/students          | Yes           | Create student       |
-| PUT    | /api/students/{id}     | Yes           | Update student       |
-| DELETE | /api/students/{id}     | Yes           | Delete student       |
+### Department-Service
+GET    /api/departments       Get all departments
+GET    /api/departments/{id}  Get department by ID
+POST   /api/departments       Create department
+PUT    /api/departments/{id}  Update department
+DELETE /api/departments/{id}  Delete department
 
-## Security package
+### Employee-Service
+GET    /api/employees         Get all employees
+GET    /api/employees/{id}    Get employee by ID
+POST   /api/employees         Create employee
+PUT    /api/employees/{id}    Update employee
+DELETE /api/employees/{id}    Delete employee
 
-- JwtHelper : generates and validates JWT tokens
-- JwtFilter : intercepts requests and sets the security context
-- SecurityConfig : configures Spring Security filter chain and beans
+## Architectural Reflection
+
+See REFLECTION.md at the repository root for the reasoning behind
+the service split and the mapping of current gaps to Spring Cloud modules.
 
 ## Concepts covered
 
-Spring Security filter chain, SecurityContextHolder, AuthenticationManager,
-DaoAuthenticationProvider, UserDetailsService, InMemoryUserDetailsManager,
-BCryptPasswordEncoder, SecurityFilterChain, SessionCreationPolicy.STATELESS,
-OncePerRequestFilter, JWT header and payload structure, HMAC-SHA256 signing,
-token expiry, JJWT library, Bearer token authentication
+Monolith challenges, microservices decomposition, service boundaries,
+domain ownership, independent deployability, port mapping conventions,
+spring.application.name, in-memory service layer, Spring Cloud overview
