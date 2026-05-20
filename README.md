@@ -1,10 +1,11 @@
-# Lab 04 : Spring Boot REST API : Student API
+# Lab 05 : Spring Security and JWT : Secured Student API
 
 ## What this branch contains
 
-This branch contains the complete solution for Lab 04 of the React and
-Spring Boot course. It is a Spring Boot application that exposes a
-Student REST API with five CRUD endpoints, tested end to end in Postman.
+This branch contains the complete solution for Lab 05 of the React and
+Spring Boot course. It secures the Student API from Lab 04 using Spring
+Security and JWT. All student endpoints require a valid Bearer token.
+The login endpoint issues tokens for verified credentials.
 
 ## How to browse step by step
 
@@ -22,26 +23,46 @@ description of what was built.
 
 ## Testing with Postman
 
-Import the collection and environment files from the project root into
-Postman. Select the Local Development environment and run the requests
-in the Lab 04 collection.
+Import the collection file from the project root into Postman.
+Select the Local Development environment before sending requests.
 
-- Lab04_StudentAPI.postman_collection.json
-- Local_Development.postman_environment.json
+- Lab05_SecuredStudentAPI.postman_collection.json
+
+Login first to obtain a token, then set it as a Bearer Token
+in the Authorization tab of each student endpoint request.
+
+## Authentication
+
+POST /api/auth/login with the following body:
+
+{
+"username": "admin",
+"password": "password"
+}
+
+The response contains a signed JWT token valid for 24 hours.
 
 ## Endpoints
 
-| Method | URL | Description |
-| ------ | --- | ----------- |
-| GET | /api/students | Get all students |
-| GET | /api/students/{id} | Get student by ID |
-| POST | /api/students | Create a new student |
-| PUT | /api/students/{id} | Update an existing student |
-| DELETE | /api/students/{id} | Delete a student |
+| Method | URL                    | Auth required | Description          |
+|--------|------------------------|---------------|----------------------|
+| POST   | /api/auth/login        | No            | Login and get token  |
+| GET    | /api/students          | Yes           | Get all students     |
+| GET    | /api/students/{id}     | Yes           | Get student by ID    |
+| POST   | /api/students          | Yes           | Create student       |
+| PUT    | /api/students/{id}     | Yes           | Update student       |
+| DELETE | /api/students/{id}     | Yes           | Delete student       |
+
+## Security package
+
+- JwtHelper : generates and validates JWT tokens
+- JwtFilter : intercepts requests and sets the security context
+- SecurityConfig : configures Spring Security filter chain and beans
 
 ## Concepts covered
 
-Spring Boot, @RestController, @RequestMapping, @GetMapping, @PostMapping,
-@PutMapping, @DeleteMapping, @PathVariable, @RequestBody, ResponseEntity,
-@Service, Constructor Injection, Jackson JSON serialisation, Optional,
-AtomicLong, In-memory data store, Postman collections and environments
+Spring Security filter chain, SecurityContextHolder, AuthenticationManager,
+DaoAuthenticationProvider, UserDetailsService, InMemoryUserDetailsManager,
+BCryptPasswordEncoder, SecurityFilterChain, SessionCreationPolicy.STATELESS,
+OncePerRequestFilter, JWT header and payload structure, HMAC-SHA256 signing,
+token expiry, JJWT library, Bearer token authentication
